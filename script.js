@@ -698,3 +698,153 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// Add this to your existing script.js file
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Existing code...
+    
+    // Menu button functionality
+    const menuButton = document.querySelector('.menu-button');
+    const navLinks = document.querySelector('.nav-links');
+    
+    // Create overlay element for menu background
+    const overlay = document.createElement('div');
+    overlay.className = 'menu-overlay';
+    document.body.appendChild(overlay);
+    
+    if (menuButton && navLinks) {
+        menuButton.addEventListener('click', function() {
+            // Toggle active classes
+            menuButton.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Prevent body scrolling when menu is open
+            if (navLinks.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close menu when clicking the overlay
+        overlay.addEventListener('click', function() {
+            menuButton.classList.remove('active');
+            navLinks.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+        
+        // Close menu when clicking on a nav link
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                menuButton.classList.remove('active');
+                navLinks.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+    }
+    
+    // Close menu when resizing to desktop view
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+            menuButton.classList.remove('active');
+            navLinks.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+});
+
+// Add this to your existing script.js file
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Existing code...
+    
+    // Slide Menu functionality
+    const menuButton = document.querySelector('.menu-button');
+    const navLinks = document.querySelector('.nav-links');
+    
+    if (menuButton && navLinks) {
+        menuButton.addEventListener('click', function() {
+            // Toggle active classes
+            menuButton.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            
+            // Prevent body scrolling when menu is open
+            if (navLinks.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        });
+        
+        // Close menu when clicking on a nav link
+        const links = navLinks.querySelectorAll('a');
+        links.forEach(link => {
+            link.addEventListener('click', function() {
+                menuButton.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+        
+        // Listen for escape key to close menu
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                menuButton.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+    
+    // Close menu when resizing to desktop view
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+            menuButton.classList.remove('active');
+            navLinks.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const menuButton = document.getElementById('menuButton');
+    const fullscreenMenu = document.getElementById('fullscreenMenu');
+    
+    // Toggle menu on button click
+    menuButton.addEventListener('click', function() {
+        this.classList.toggle('open');
+        fullscreenMenu.classList.toggle('open');
+        
+        // Prevent body scrolling when menu is open
+        if (fullscreenMenu.classList.contains('open')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+    });
+    
+    // Close menu when clicking links
+    const menuLinks = fullscreenMenu.querySelectorAll('a');
+    menuLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            menuButton.classList.remove('open');
+            fullscreenMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+    });
+    
+    // Close menu on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && fullscreenMenu.classList.contains('open')) {
+            menuButton.classList.remove('open');
+            fullscreenMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    });
+});
