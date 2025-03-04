@@ -848,3 +848,117 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Mouse movement effect for visual elements
+    const visualElements = document.querySelector('.visual-elements');
+    const gridBox = document.querySelector('.grid-box');
+    const circle = document.querySelector('.circle');
+    
+    document.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+        
+        // Subtle parallax effect on visual elements
+        gridBox.style.transform = `translate(${mouseX * 30}px, ${mouseY * 30}px) rotate(${mouseX * 5}deg)`;
+        circle.style.transform = `translate(${mouseX * -40}px, ${mouseY * 40}px)`;
+    });
+    
+    // Text scramble effect
+    const text = document.querySelector('h1');
+    const originalText = text.textContent;
+    let isAnimating = false;
+    
+    function scrambleText() {
+        if (isAnimating) return;
+        isAnimating = true;
+        
+        let iteration = 0;
+        const maxIterations = 15;
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        
+        const interval = setInterval(() => {
+            text.innerText = originalText
+                .split("")
+                .map((letter, index) => {
+                    if (index < iteration) {
+                        return originalText[index];
+                    }
+                    
+                    if (letter === ' ') return ' ';
+                    return chars[Math.floor(Math.random() * chars.length)];
+                })
+                .join("");
+            
+            if (iteration >= originalText.length) {
+                clearInterval(interval);
+                isAnimating = false;
+            }
+            
+            iteration += 1 / 3;
+        }, 30);
+    }
+    
+    // Initial animation
+    setTimeout(scrambleText, 500);
+    
+    // Cursor effect
+    const cursor = document.createElement('div');
+    
+    // Smooth scrolling for navigation links
+    const navLinks = document.querySelectorAll('.nav-links a, .scroll-indicator');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Only proceed if the link has a hash
+            const targetId = this.getAttribute('href');
+            if (targetId && targetId.startsWith('#')) {
+                e.preventDefault();
+                
+                // Try to find the target element by ID first
+                let targetSection = document.querySelector(targetId);
+                
+                // If not found by ID, try finding by class name
+                if (!targetSection) {
+                    // Remove the # and try as a class name
+                    const className = targetId.substring(1);
+                    targetSection = document.querySelector('.' + className);
+                }
+                
+                if (targetSection) {
+                    // Smooth scroll to the target section
+                    window.scrollTo({
+                        top: targetSection.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+    
+    // Mobile menu toggle
+    const menuButton = document.querySelector('.menu-button');
+    const navLinksContainer = document.querySelector('.nav-links');
+    
+    if (menuButton && navLinksContainer) {
+        menuButton.addEventListener('click', function() {
+            navLinksContainer.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+    }
+    
+    // FAQ toggle functionality
+    const faqItems = document.querySelectorAll('.faq-question');
+    
+    faqItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const parent = this.parentElement;
+            parent.classList.toggle('active');
+            
+            const toggle = this.querySelector('.question-toggle');
+            if (toggle) {
+                toggle.textContent = parent.classList.contains('active') ? '−' : '+';
+            }
+        });
+    });
+});
