@@ -948,7 +948,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // FAQ toggle functionality
-    const faqItems = document.querySelectorAll('.faq-question');
+    const faqItems = document.querySelectorAll('.');
     
     faqItems.forEach(item => {
         item.addEventListener('click', function() {
